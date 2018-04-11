@@ -24,4 +24,9 @@
         <Add type="com.microsoft.applicationinsights.web.extensibility.initializers.WebUserAgentTelemetryInitializer"/>
 
       </TelemetryInitializers>
+
+      <SDKLogger>
+	        <Level>ALL</Level>
+	      </SDKLogger>
+
     </ApplicationInsights>
