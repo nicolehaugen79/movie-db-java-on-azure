@@ -75,7 +75,8 @@ def deployFunctionApp() {
         mvn clean package
     """
 
-    azureFunctionAppPublish azureCredentialsId: 'azure-sp', resourceGroup: config.COMMON_GROUP, appName: appName, filePath: '**/*.jar,**/*.json', sourceDirectory: "target/azure-functions/${appName}"
+    //Note: Updated azure cred id with one from my Jenkins environment
+    azureFunctionAppPublish azureCredentialsId: 'b3ee4c17-c53f-434a-b9b3-fc1e9390278e', resourceGroup: config.COMMON_GROUP, appName: appName, filePath: '**/*.jar,**/*.json', sourceDirectory: "target/azure-functions/${appName}"
 }
 
 def deployWebApp(String resGroup, String dockerFilePath) {
