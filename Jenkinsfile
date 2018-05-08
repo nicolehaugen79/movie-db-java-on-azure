@@ -37,7 +37,7 @@ node {
   }
 
   stage('Publish Docker Image') {
-    withMaven(maven: 'Maven')
+    withMaven(maven: 'Maven', settings: 'MySettings')
     {
       withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
         sh("cd data-app; mvn package docker:build -DpushImage -DskipTests -X; cd ..")
