@@ -19,19 +19,30 @@ node {
  }
 
   stage('Build') {
-    sh("cd data-app; mvn compile; cd ..")
-    sh("cd web-app; mvn compile; cd ..")
+
+    //Note: Maven install name in Jenkins is hard-coded here
+    withMaven(maven: 'Maven')
+    {
+      sh("cd data-app; mvn compile; cd ..")
+      sh("cd web-app; mvn compile; cd ..")
+    }
   }
 
   stage('Test') {
-    sh("cd data-app; mvn test; cd ..")
-    sh("cd web-app; mvn test; cd ..")
+    withMaven(maven: 'Maven')
+    {
+      sh("cd data-app; mvn test; cd ..")
+      sh("cd web-app; mvn test; cd ..")
+    }
   }
 
   stage('Publish Docker Image') {
-    withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
-      sh("cd data-app; mvn package docker:build -DpushImage -DskipTests; cd ..")
-      sh("cd web-app; mvn package docker:build -DpushImage -DskipTests; cd ..")
+    withMaven(maven: 'Maven')
+    {
+      withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
+        sh("cd data-app; mvn package docker:build -DpushImage -DskipTests; cd ..")
+        sh("cd web-app; mvn package docker:build -DpushImage -DskipTests; cd ..")
+      }
     }
   }
 
