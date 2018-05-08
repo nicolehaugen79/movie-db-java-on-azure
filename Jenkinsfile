@@ -9,6 +9,11 @@ node {
 
   stage('Prepare') {
     echo "Target environment is: ${targetEnv}"
+
+    //Note: hard-coded the id for the service principal cred stored in Jenkins
+    withCredentials([azureServicePrincipal('b3ee4c17-c53f-434a-b9b3-fc1e9390278e')]) {
+      sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+    
     azureUtil.prepareEnv(targetEnv)
   }
 

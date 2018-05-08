@@ -33,12 +33,12 @@ def prepareEnv(String targetEnv) {
     /**
      * Azure CLI login
      */
-    sh '''
+    /*sh '''
         client_id=$(cat /etc/kubernetes/azure.json | python -c "import sys, json; print json.load(sys.stdin)['aadClientId']")
         client_secret=$(cat /etc/kubernetes/azure.json | python -c "import sys, json; print json.load(sys.stdin)['aadClientSecret']")
         tenant_id=$(cat /etc/kubernetes/azure.json | python -c "import sys, json; print json.load(sys.stdin)['tenantId']")
         az login --service-principal -u ${client_id} -p ${client_secret} --tenant ${tenant_id}
-    '''
+    '''*/
 
     this.acrName = sh(
             script: "az acr list -g ${config.COMMON_GROUP} --query [0].name | tr -d '\"'",
