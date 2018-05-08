@@ -109,6 +109,7 @@
                     <serverId>${env.ACR_LOGIN_SERVER}</serverId>
                     <registryUrl>https://${env.ACR_LOGIN_SERVER}</registryUrl>
                     <dockerDirectory>src/main/docker/base</dockerDirectory>
+                    <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
