@@ -47,9 +47,13 @@ node {
   }
 
   stage('Deploy') {
-    // Deploy function app
-    dir('function-app') {
+
+    withMaven(maven: 'Maven')
+    {
+      // Deploy function app
+        dir('function-app') {
         azureUtil.deployFunctionApp()
+      }
     }
 
     // Deploy data app
