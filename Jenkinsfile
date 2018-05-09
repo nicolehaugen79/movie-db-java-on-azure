@@ -50,22 +50,22 @@ node {
 
     withMaven(maven: 'Maven')
     {
-      // Deploy function app
+        // Deploy function app
         dir('function-app') {
         azureUtil.deployFunctionApp()
+        }
+
+      // Deploy data app
+      withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
+        azureUtil.deployDataApp(targetEnv, azureUtil.config.EAST_US_GROUP)
+        azureUtil.deployDataApp(targetEnv, azureUtil.config.WEST_EUROPE_GROUP)
       }
-    }
 
-    // Deploy data app
-    withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
-      azureUtil.deployDataApp(targetEnv, azureUtil.config.EAST_US_GROUP)
-      azureUtil.deployDataApp(targetEnv, azureUtil.config.WEST_EUROPE_GROUP)
-    }
-
-    // Deploy web app
-    dir('web-app/target') {
-        azureUtil.deployWebApp(azureUtil.config.EAST_US_GROUP, "docker/Dockerfile")
-        azureUtil.deployWebApp(azureUtil.config.WEST_EUROPE_GROUP, "docker/Dockerfile")
+      // Deploy web app
+      dir('web-app/target') {
+          azureUtil.deployWebApp(azureUtil.config.EAST_US_GROUP, "docker/Dockerfile")
+          azureUtil.deployWebApp(azureUtil.config.WEST_EUROPE_GROUP, "docker/Dockerfile")
+      }
     }
   }
 }
