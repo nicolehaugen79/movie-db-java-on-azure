@@ -139,7 +139,7 @@ void addSSHCredential(String credentialId) {
         CredentialsScope.GLOBAL,
         credentialId,
         "azureuser",
-        new BasicSSHUserPrivateKey.FileOnMasterPrivateKeySource('/root/.ssh/id_rsa'),
+        new BasicSSHUserPrivateKey.FileOnMasterPrivateKeySource('${HOME}/.ssh/id_rsa'),
         '',
         ''
     )
