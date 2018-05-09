@@ -143,7 +143,7 @@ def deployDataApp(String targetEnv, String resGroup) {
     """
 
     //Note: Updated creds with what is in my Jenkins deployment
-    acsDeploy azureCredentialsId: 'b3ee4c17-c53f-434a-b9b3-fc1e9390278e', configFilePaths: 'data-app/target/fabric8/deployment.yml,data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
+    acsDeploy azureCredentialsId: 'b3ee4c17-c53f-434a-b9b3-fc1e9390278e', configFilePaths: 'data-app/target/fabric8/deployment.yml,data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'f6848b7a-c963-40d5-9dc5-90488a22a5eb'
 
     sh """
         # Check whether there is any redundant IP address
