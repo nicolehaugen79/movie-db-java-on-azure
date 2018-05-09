@@ -85,7 +85,8 @@ def deployWebApp(String resGroup, String dockerFilePath) {
             returnStdout: true
     ).trim()
 
-    azureWebAppPublish appName: appName, azureCredentialsId: 'azure-sp', dockerFilePath: dockerFilePath, dockerImageName: "${this.acrName}.azurecr.io/web-app", dockerImageTag: '', dockerRegistryEndpoint: [credentialsId: 'acr', url: "https://${this.acrName}.azurecr.io"], filePath: '', publishType: 'docker', resourceGroup: resGroup, slotName: '', sourceDirectory: '', targetDirectory: ''
+    //Note: updated creds with what is in my Jenkins environment
+    azureWebAppPublish appName: appName, azureCredentialsId: 'b3ee4c17-c53f-434a-b9b3-fc1e9390278e', dockerFilePath: dockerFilePath, dockerImageName: "${this.acrName}.azurecr.io/web-app", dockerImageTag: '', dockerRegistryEndpoint: [credentialsId: 'acr', url: "https://${this.acrName}.azurecr.io"], filePath: '', publishType: 'docker', resourceGroup: resGroup, slotName: '', sourceDirectory: '', targetDirectory: ''
 
     sh """
         data_api_endpoint=\$(az network traffic-manager profile list -g ${config.COMMON_GROUP} --query [0].dnsConfig.fqdn | tr -d '"')
@@ -141,7 +142,8 @@ def deployDataApp(String targetEnv, String resGroup) {
         kubectl apply -f target/fabric8/namespace.yml
     """
 
-    acsDeploy azureCredentialsId: 'azure-sp', configFilePaths: 'data-app/target/fabric8/deployment.yml,data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
+    //Note: Updated creds with what is in my Jenkins deployment
+    acsDeploy azureCredentialsId: 'b3ee4c17-c53f-434a-b9b3-fc1e9390278e', configFilePaths: 'data-app/target/fabric8/deployment.yml,data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
 
     sh """
         # Check whether there is any redundant IP address
