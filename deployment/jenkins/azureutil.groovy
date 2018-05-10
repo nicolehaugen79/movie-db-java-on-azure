@@ -70,6 +70,7 @@ def deployFunctionApp() {
     ).trim()
 
     sh """
+        echo Deploying function...
         export COMMON_GROUP=${config.COMMON_GROUP}
         export FUNCTION_APP=${appName}
         mvn clean package
