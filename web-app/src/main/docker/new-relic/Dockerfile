@@ -7,8 +7,8 @@ RUN sh -c 'touch /newrelic.jar'
 ADD newrelic.yml newrelic.yml
 RUN sh -c 'touch /newrelic.yml'
 ARG NEW_RELIC_APP_NAME=""
-ENV NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
+ENV NEW_RELIC_APP_NAME="MovieDBApp"
 ARG NEW_RELIC_LICENSE_KEY="" 
-ENV NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+ENV NEW_RELIC_LICENSE_KEY="d8814f588ac6488994c24e029a0b8216ebe4a3a5" 
 ENV JAVA_OPTS=""
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -javaagent:/newrelic.jar -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
