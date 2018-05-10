@@ -158,7 +158,7 @@ def deployDataApp(String targetEnv, String resGroup) {
         # Wait until external IP is created for data app
         while [ 1 ]
         do
-          ip_name=\$(az network public-ip list -g ${resGroup} --query "[?tags.service=='${tarrgetEnv}/data-app'] | [0].name" | tr -d '"')
+          ip_name=\$(az network public-ip list -g ${resGroup} --query "[?tags.service=='${targetEnv}/data-app'] | [0].name" | tr -d '"')
           if [ -n "\${ip_name}" ]; then
             break
           fi
