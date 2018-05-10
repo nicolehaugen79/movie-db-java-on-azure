@@ -86,7 +86,7 @@ def deployWebApp(String resGroup, String dockerFilePath) {
     ).trim()
 
     //Note: updated creds with what is in my Jenkins environment
-    azureWebAppPublish appName: appName, azureCredentialsId: 'b3ee4c17-c53f-434a-b9b3-fc1e9390278e', dockerFilePath: dockerFilePath, dockerImageName: "${this.acrName}.azurecr.io/web-app", dockerImageTag: '', dockerRegistryEndpoint: [credentialsId: 'acr', url: "https://${this.acrName}.azurecr.io"], filePath: '', publishType: 'docker', resourceGroup: resGroup, slotName: '', sourceDirectory: '', targetDirectory: ''
+    azureWebAppPublish appName: appName, azureCredentialsId: 'b3ee4c17-c53f-434a-b9b3-fc1e9390278e', dockerFilePath: dockerFilePath, dockerImageName: "${this.acrName}.azurecr.io/web-app-w-new-relic", dockerImageTag: '', dockerRegistryEndpoint: [credentialsId: 'acr', url: "https://${this.acrName}.azurecr.io"], filePath: '', publishType: 'docker', resourceGroup: resGroup, slotName: '', sourceDirectory: '', targetDirectory: ''
 
     sh """
         data_api_endpoint=\$(az network traffic-manager profile list -g ${config.COMMON_GROUP} --query [0].dnsConfig.fqdn | tr -d '"')
@@ -157,7 +157,7 @@ def deployDataApp(String targetEnv, String resGroup) {
         # Wait until external IP is created for data app
         while [ 1 ]
         do
-          ip_name=\$(az network public-ip list -g ${resGroup} --query "[?tags.service=='${targetEnv}/data-app'] | [0].name" | tr -d '"')
+          ip_name=\$(az network public-ip list -g ${resGroup} --query "[?tags.service=='${tarrgetEnv}/data-app'] | [0].name" | tr -d '"')
           if [ -n "\${ip_name}" ]; then
             break
           fi
