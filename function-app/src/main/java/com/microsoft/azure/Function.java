@@ -44,7 +44,7 @@ public class Function {
             connection = "STORAGE_CONNECTION_STRING",
             dataType = "binary") byte[] myBlob,
                                   final ExecutionContext executionContext) throws IOException {
-        executionContext.getLogger().log(Level.INFO, "Resizing image...1");
+        executionContext.getLogger().log(Level.INFO, "Resizing image...4.0");
         return resizeImage(myBlob);
     }
 }
