@@ -30,8 +30,8 @@ public class MovieRepository {
     private static final Logger logger = LoggerFactory.getLogger(MovieRepository.class);
     private final RestTemplate restTemplate;
 
-    @Value("${TEST_SETTING}")
-    private String testSetting;
+   // @Value("${TEST_SETTING}")
+ //   private String testSetting;
 
     /**
      * Construct rest template with data app uri.
@@ -51,7 +51,7 @@ public class MovieRepository {
         }
 
         logger.debug("data app api root url: " + dataAppApiUrl);
-        logger.debug("test env variable: " + testSetting);
+        //logger.debug("test env variable: " + testSetting);
         restTemplate = builder.rootUri(dataAppApiUrl).build();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
     }
