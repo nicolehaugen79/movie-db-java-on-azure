@@ -45,6 +45,7 @@ node {
           azureUtil.deployFunctionApp()
         }
     }
+  }
 
   stage('Deploy Data App') {
     withMaven(maven: 'Maven', settings: 'MySettings')
