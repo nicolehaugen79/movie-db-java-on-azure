@@ -36,31 +36,37 @@ node {
     }
   }
 
-  stage('Publish Docker Image') {
+  stage('Deploy Function') {
+
+      withMaven(maven: 'Maven')
+      {
+          // Deploy function app
+          dir('function-app') {
+          azureUtil.deployFunctionApp()
+        }
+    }
+
+  stage('Deploy Data App') {
     withMaven(maven: 'Maven', settings: 'MySettings')
     {
       withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
         sh("cd data-app; mvn package docker:build -DpushImage -DskipTests; cd ..")
-        sh("cd web-app; mvn package docker:build@with-new-relic -DpushImage -DskipTests; cd ..")
+        //sh("cd web-app; mvn package docker:build@with-new-relic -DpushImage -DskipTests; cd ..")
+      }
+
+        // Deploy data app
+        withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
+        azureUtil.deployDataApp(targetEnv, azureUtil.config.EAST_US_GROUP)
+        //azureUtil.deployDataApp(targetEnv, azureUtil.config.WEST_EUROPE_GROUP)
       }
     }
   }
 
-  stage('Deploy') {
+  stage('Deploy Web App') {
 
     withMaven(maven: 'Maven')
     {
-        // Deploy function app
-        dir('function-app') {
-        azureUtil.deployFunctionApp()
-        }
-
-      // Deploy data app
-      withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
-        azureUtil.deployDataApp(targetEnv, azureUtil.config.EAST_US_GROUP)
-        //azureUtil.deployDataApp(targetEnv, azureUtil.config.WEST_EUROPE_GROUP)
-      }
-
+     
       // Deploy web app
       dir('web-app/target') {
           azureUtil.deployWebApp(azureUtil.config.EAST_US_GROUP, "docker/Dockerfile")
